@@ -29,6 +29,7 @@ namespace PetStore
 					Quantity = 42,
 					Description = "Crafted out of the finest souls of the innocent. Guaranteed to satisfy your kitten.",
 					KittenFood = true
+
 				},
 
 				new CatFood
@@ -39,13 +40,26 @@ namespace PetStore
 					Description = "Num num num num gone",
 					KittenFood = false
 				},
+
+				new DryCatFood
+				{
+					Name = "Dandruff Flakes",
+					Price = 0,
+					Quantity = 9999999,
+					WeightPounds = 3,
+					Description = "Nutricious and never in short supply.",
+					KittenFood = false
+				},
 			};
+
 
 		}
 
 		private Dictionary<string, DogLeash> _dogLeashes= new Dictionary<string, DogLeash>();
 
 		private Dictionary<string, CatFood> _catFeed = new Dictionary<string, CatFood>();
+
+		private Dictionary<string, DryCatFood> _dryCatFeed = new Dictionary<string, DryCatFood>();
 
 		
 
@@ -69,6 +83,11 @@ namespace PetStore
 			else if (product is CatFood)
 			{
 				_catFeed.Add(product.Name, (CatFood)product);
+			}
+
+			else if (product is DryCatFood)
+			{
+				_dryCatFeed.Add(product.Name, (DryCatFood)product);
 			}
 			
 		}
@@ -103,7 +122,21 @@ namespace PetStore
             }
 		}
 
-		public List<string> GetOnlyInStockProducts()
+		public DryCatFood GetDryCatFoodByName(string name)
+        {
+            try
+            {
+                return _dryCatFeed[name];
+            }
+            catch (Exception ex)
+            {
+
+                return null;
+                throw;
+            }
+        }
+
+        public List<string> GetOnlyInStockProducts()
 		{
             return _products.InStock().Select(x => x.Name).ToList();
         }

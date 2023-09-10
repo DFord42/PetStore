@@ -40,20 +40,6 @@ namespace PetStore
             Console.WriteLine($"Please enter a short description of {catFood.Name}: ");
             catFood.Description = Console.ReadLine();
 
-            /* Console.WriteLine($"Is {catFood.Name} dry food? ");
-             var answer = Console.ReadLine();
-
-             if (answer.ToLower() == "yes")
-             {
-                 Console.WriteLine($"How many pounds does {catFood.Name} weigh? ");
-                 //Tests if the response is a double. If so, it is assigned to catFood's WeightPounds
-                 test = double.TryParse(Console.ReadLine(), out double weight);
-                 CatFood dryCatFood.WeightPounds = weight;
-             }
-             else
-             {
-                 Console.WriteLine("Okay. I was just checking.");
-             } */
 
             Console.WriteLine("Is this food for a kitten? Yes or no: ");
             string check = Console.ReadLine();
@@ -75,6 +61,7 @@ namespace PetStore
 
             productLogic.AddProduct(catFood);
             Console.WriteLine($"That sounds delicious! Those cats will certainly love {catFood.Name}.");
+            
         }
     }
     

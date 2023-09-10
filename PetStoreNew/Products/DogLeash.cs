@@ -13,7 +13,7 @@ namespace PetStore
             public int LengthInches { get; set; }
             [JsonInclude]
             public string Material { get; set; }
-
+        
         public override string ToString()
         {
             return ($"The dog leash, {Name}, costs ${Price}, and has {Quantity} leashes in stock."

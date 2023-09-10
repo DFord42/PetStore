@@ -6,6 +6,7 @@ namespace PetStore
 		void AddProduct(Product product);
 		DogLeash GetDogLeashByName(string name);
 		CatFood GetCatFoodByName(string name);
+		DryCatFood GetDryCatFoodByName(string name);
 		List<string> GetOnlyInStockProducts();
 		decimal GetTotalPriceOfInventory();
 	}

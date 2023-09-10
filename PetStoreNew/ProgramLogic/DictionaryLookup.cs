@@ -18,6 +18,7 @@ namespace PetStore
                 }
                 else if (lookupType.ToLower() == "cat")
                 {
+
                     CatFoodLookup(productLogic);
                     break;
                 }
@@ -61,6 +62,23 @@ namespace PetStore
             else
             {
                 Console.WriteLine(productLogic.GetDogLeashByName(name).ToString());
+            }
+        }
+
+        public static void DryCatFoodLookup(ProductLogic productLogic)
+        {
+            Console.WriteLine("What is the name of the dry cat food?");
+            string name = Console.ReadLine();
+
+            JsonSerializer.Serialize(productLogic.GetDryCatFoodByName(name));
+
+            if (productLogic.GetDryCatFoodByName(name) == null)
+            {
+                Console.WriteLine("That product cannot be found.");
+            }
+            else
+            {
+                Console.WriteLine(productLogic.GetCatFoodByName(name).ToString());
             }
         }
            
