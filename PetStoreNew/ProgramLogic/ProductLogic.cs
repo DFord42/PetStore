@@ -91,6 +91,29 @@ namespace PetStore
 			}
 			
 		}
+        public T GetProductByName<T>(string name) where T : Product
+        {
+			try
+			{
+				Product product = _products.First(p => p.Name == name);
+				if (product is T result)
+				{
+					return result;
+				}
+				else
+				{
+					throw null;
+				}
+			}
+			catch (Exception)
+			{
+				throw null;
+			}
+            
+        }
+
+        /*
+
 		//The return type here is DogLeash because it is from the DogLeash class. It is then comparing the temporary string
 		//name to the Dictionary's key that is contained
 		public DogLeash GetDogLeashByName(string name)
@@ -135,6 +158,8 @@ namespace PetStore
                 throw;
             }
         }
+
+		*/
 
         public List<string> GetOnlyInStockProducts()
 		{

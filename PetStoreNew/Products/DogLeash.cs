@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Text.Json.Serialization;
+using System.Text.Json;
+using PetStore.Validators;
+using FluentValidation;
 
 namespace PetStore
 {
@@ -24,9 +27,33 @@ namespace PetStore
 
         public static void AddDogLeash(ProductLogic productLogic)
         {
-            DogLeash dogLeash = new DogLeash();
+           
 
-            Console.WriteLine("You will be adding a leash for a dog.");
+            Console.WriteLine("Please insert a dog leash in a JSON format.");
+            Console.WriteLine("The properties are Name, Price, Quantity, Description, LengthInches, and Material.");
+
+            var JsonInput = Console.ReadLine();
+            var dogLeash = JsonSerializer.Deserialize<DogLeash>(JsonInput);
+            
+
+            DogLeashValidator validator = new DogLeashValidator();
+            if (validator.Validate(dogLeash as DogLeash).IsValid)
+            {
+                productLogic.AddProduct(dogLeash);
+            }
+            else
+            {
+
+                throw new ValidationException("That is not a valid input.");
+            }
+
+                Console.WriteLine($"The leash, {dogLeash.Name}, has been created.");
+
+
+            /*
+             DogLeash dogLeash = new DogLeash();
+
+              Console.WriteLine("You will be adding a leash for a dog.");
 
             Console.WriteLine("What is the name of this leash? ");
             dogLeash.Name = Console.ReadLine();
@@ -53,7 +80,7 @@ namespace PetStore
 
             productLogic.AddProduct(dogLeash);
 
-            Console.WriteLine($"Oh boy! Those pups will really enjoy walking with {dogLeash.Name}!");
+            Console.WriteLine($"Oh boy! Those pups will really enjoy walking with {dogLeash.Name}!");*/
 
 
         }

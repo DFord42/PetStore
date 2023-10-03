@@ -16,10 +16,12 @@
     <None Remove="Products\" />
     <None Remove="ProgramLogic\" />
     <None Remove="Interfaces\" />
+    <None Remove="Validators\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Products\" />
     <Folder Include="ProgramLogic\" />
     <Folder Include="Interfaces\" />
+    <Folder Include="Validators\" />
   </ItemGroup>
 </Project>

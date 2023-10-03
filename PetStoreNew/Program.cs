@@ -4,6 +4,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PetStore.Validators;
 
 namespace PetStore
 {
@@ -11,27 +12,21 @@ namespace PetStore
     {
         public static void Main(string[] args)
         {
-
             var services = CreateServiceCollection();
 
             var productLogic = services.GetService<IProductLogic>();
-            
 
-            //Declaring variable used to accept a user's response
+                //Method used to control the program
+                string userPrompt = ProgramPrompts();
 
-            string runProgram = "yes";
-
-            
-                string userInput = ProgramPrompts();
-
-                while (userInput.ToLower() != "exit")
+                while (userPrompt.ToLower() != "exit")
                 {
-                    if (userInput == "1")
+                    if (userPrompt == "1")
                     {
                         Console.WriteLine("Is the product for a cat or a dog? ");
-                        userInput = Console.ReadLine();
+                        userPrompt = Console.ReadLine();
 
-                        switch (userInput)
+                        switch (userPrompt)
                         {
                             case "dog":
                                 DogLeash.AddDogLeash((ProductLogic)productLogic);
@@ -46,12 +41,16 @@ namespace PetStore
                         }
                     }
 
-                    else if (userInput == "2")
+                    else if (userPrompt == "2")
                     {
-                        DictionaryLookup.Lookup((ProductLogic)productLogic);
+                    Console.WriteLine("What is the name of the product you wish to look up?");
+                    var lookupName = Console.ReadLine();
+                    var productName = productLogic.GetProductByName<Product>(lookupName);
+                    Console.WriteLine(JsonSerializer.Serialize(productName));
+                    
                     }
 
-                    else if (userInput == "3")
+                    else if (userPrompt == "3")
                     {
                         var Products = productLogic.GetOnlyInStockProducts();
                         foreach (string inStockProduct in Products)
@@ -60,13 +59,13 @@ namespace PetStore
                         }
                     }
 
-                    else if (userInput == "4")
+                    else if (userPrompt == "4")
                     {
                         Console.WriteLine($"The total price of everything in stock is ${productLogic.GetTotalPriceOfInventory()}.");
                       
                     }
 
-                    else if (userInput.ToLower() == "exit ")
+                    else if (userPrompt.ToLower() == "exit ")
                     {
                         break;
                     }
@@ -77,7 +76,7 @@ namespace PetStore
                     }
                 
 
-                userInput = ProgramPrompts();
+                userPrompt = ProgramPrompts();
             }
             Console.WriteLine("Thank you for visiting your local pet store!");
             Console.ReadKey();

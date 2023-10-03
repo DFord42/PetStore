@@ -1,6 +1,9 @@
 ﻿using System;
 using PetStore;
+using System.Text.Json;
 using System.Text.Json.Serialization;
+using PetStore.Validators;
+using FluentValidation;
 
 namespace PetStore
 {
@@ -20,7 +23,26 @@ namespace PetStore
 
         public static void AddCatFood(ProductLogic productLogic)
         {
-            CatFood catFood = new CatFood();
+
+            Console.WriteLine("Please insert a cat food in a JSON format.");
+            Console.WriteLine("The properties are Name, Price, Quantity, Description, and KittenFood.");
+
+            var JsonInput = Console.ReadLine();
+            var catFood = JsonSerializer.Deserialize<CatFood>(JsonInput);
+
+            CatFoodValidator validator = new CatFoodValidator();
+            if (validator.Validate(catFood as CatFood).IsValid)
+            {
+                productLogic.AddProduct(catFood);
+            }
+            else
+            {
+
+                throw new ValidationException("That is not a valid input.");
+            }
+
+            Console.WriteLine($"The leash, {catFood.Name}, has been created.");
+            /*CatFood catFood = new CatFood();
 
             Console.WriteLine("You will be adding some cat food.");
           
@@ -28,7 +50,6 @@ namespace PetStore
             catFood.Name = Console.ReadLine();
 
             Console.WriteLine($"How much money will {catFood.Name} cost? ");
-
             bool test = decimal.TryParse(Console.ReadLine(), out decimal price);
             catFood.Price = price;
 
@@ -61,7 +82,8 @@ namespace PetStore
 
             productLogic.AddProduct(catFood);
             Console.WriteLine($"That sounds delicious! Those cats will certainly love {catFood.Name}.");
-            
+            */
+
         }
     }
     
