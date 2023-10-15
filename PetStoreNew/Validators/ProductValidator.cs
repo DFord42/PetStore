@@ -1,13 +1,12 @@
 ﻿using System;
 using FluentValidation;
-using PetStore;
-namespace PetStore.Validators
+namespace PetStore.Validator
 {
-	public class DogLeashValidator : AbstractValidator<DogLeash>
+	public class ProductValidator : AbstractValidator<Product>
 	{
-		public DogLeashValidator()
+		public ProductValidator()
 		{
-			RuleFor(x => x.Name).NotNull();
+			RuleFor(x => x.Name).NotEmpty();
 			RuleFor(x => x.Price).GreaterThan(0);
 			RuleFor(x => x.Quantity).GreaterThan(0);
 			RuleFor(x => x.Description).MinimumLength(10);

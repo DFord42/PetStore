@@ -4,7 +4,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using PetStore.Validators;
+using PetStore.Data;
 
 namespace PetStore
 {
@@ -15,6 +15,7 @@ namespace PetStore
             var services = CreateServiceCollection();
 
             var productLogic = services.GetService<IProductLogic>();
+            var productRepository = services.GetService<IProductRepository>();
 
                 //Method used to control the program
                 string userPrompt = ProgramPrompts();
@@ -23,46 +24,18 @@ namespace PetStore
                 {
                     if (userPrompt == "1")
                     {
-                        Console.WriteLine("Is the product for a cat or a dog? ");
-                        userPrompt = Console.ReadLine();
-
-                        switch (userPrompt)
-                        {
-                            case "dog":
-                                DogLeash.AddDogLeash((ProductLogic)productLogic);
-                                break;
-
-                            case "cat":
-                                CatFood.AddCatFood((ProductLogic)productLogic);
-                                break;
-
-                            default:
-                                break;
-                        }
+                    Console.WriteLine("Please enter a product in Json format.");
+                    var product = JsonSerializer.Deserialize<ProductEntity>(Console.ReadLine());
+                    productRepository.AddNewProduct(product);
                     }
 
                     else if (userPrompt == "2")
                     {
-                    Console.WriteLine("What is the name of the product you wish to look up?");
-                    var lookupName = Console.ReadLine();
-                    var productName = productLogic.GetProductByName<Product>(lookupName);
+                    Console.WriteLine("What is the ID of the product you wish to look up?");
+                    var test = int.TryParse(Console.ReadLine(), out int lookupId);
+                    var productName = productLogic.GetProductById(lookupId);
                     Console.WriteLine(JsonSerializer.Serialize(productName));
                     
-                    }
-
-                    else if (userPrompt == "3")
-                    {
-                        var Products = productLogic.GetOnlyInStockProducts();
-                        foreach (string inStockProduct in Products)
-                        {
-                            Console.WriteLine(inStockProduct);
-                        }
-                    }
-
-                    else if (userPrompt == "4")
-                    {
-                        Console.WriteLine($"The total price of everything in stock is ${productLogic.GetTotalPriceOfInventory()}.");
-                      
                     }
 
                     else if (userPrompt.ToLower() == "exit ")
@@ -85,9 +58,7 @@ namespace PetStore
         private static string ProgramPrompts()
         {
             Console.WriteLine("Press 1 to enter a product.");
-            Console.WriteLine("Press 2 to look up a product.");
-            Console.WriteLine("Press 3 to view all in stock products.");
-            Console.WriteLine("Press 4 to see the total cost of every in stock product.");
+            Console.WriteLine("Press 2 to look up a product by its ID number.");
             Console.WriteLine("Type 'exit' to quit. ");
 
             string userInput = Console.ReadLine();
@@ -98,6 +69,7 @@ namespace PetStore
         {
             return new ServiceCollection()
                 .AddTransient<IProductLogic, ProductLogic>()
+                .AddTransient<IProductRepository, ProductRepository>()
                 .BuildServiceProvider();
         }
     }

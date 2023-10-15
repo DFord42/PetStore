@@ -1,16 +1,13 @@
 ﻿using System;
+using PetStore.Data;
+
 namespace PetStore
 {
 	public interface IProductLogic
 	{
-		void AddProduct(Product product);
-        //DogLeash GetDogLeashByName(string name);
-        //CatFood GetCatFoodByName(string name);
-        //DryCatFood GetDryCatFoodByName(string name);
-        public T GetProductByName<T>(string name) where T : Product;
+		void AddProduct(ProductEntity product);
+		public ProductEntity GetProductById(int productId);
 
-        List<string> GetOnlyInStockProducts();
-		decimal GetTotalPriceOfInventory();
-	}
+    }
 }
 

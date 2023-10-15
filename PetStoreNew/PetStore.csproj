@@ -24,4 +24,7 @@
     <Folder Include="Interfaces\" />
     <Folder Include="Validators\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PetStore.Data\PetStore.Data.csproj" />
+  </ItemGroup>
 </Project>
